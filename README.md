@@ -48,7 +48,7 @@ We define the "d-id:documentHash" metadata property and put the following condit
 * nem:mayBeEmpty=true
 
 This means that a transaction of an "identity-doc" mosaic must contain the "d-id:documentHash" metadata AND
-the value may be empty AND if it contains a value that value must be unique within the "identity-doc" mosaic space (this also applies to an empty value that you can only use once).
+the value may be empty AND if it contains a value that value must be unique within the "identity-doc" mosaic space.
 
 We can define the "d-id:status" metadata property and put the following conditions on it:
 * nem:isRequired=true
