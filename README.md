@@ -58,7 +58,15 @@ This means that a transaction of a "identity-doc" mosaic must contain the "d-id:
 
 If we apply just these two metadata properties "d-id:documentHash" and "d-id:status" on an instance of an "identity-doc" mosaic, we can support all DID operations (as described in https://w3c-ccg.github.io/did-spec/#did-operations), not on the actual DID Documents, but at least on the document hashes on the NEM Catapult blockchain.
 
+**Note on "update" and "revoked (or delete)" operation for identity management:**
+Any blockchain struggles with the concept of mutability as it is contrary to the inherent immutability of a blockchain.
+Off course a transaction remains immutable, but by adding some metadata and conditions, the concept of an "update" and "revocation (or delete)" can be implemented to a certain degree (needs to be in concert how an application reacts to that, unfortunately).
+
+**Note on "verify" operation for identity management:**
+A DID verify operation can look at all transactions with mosaic "identity-doc" coming from an account containing a DID as alias and then can look at the "d-id:status" metadata. 
+The last transaction will contain the status that the verifier should use.
+
 ## Conclusion for identity usage
 Using these metadata and conditions on metadata, we can modify the NEM Catapult blockchain so that is becomes suitable for identity purposes:
 1. By attaching an alias to an account containing a DID and resticting this to be unique and
-2. By using this account then for making transactions on a mosaic "identity-doc" with specific metadata for this purpose, being "d-id:documentHash" and "d-id:status" and their conditions.
+2. By using this account then for making transactions on a mosaic "identity-doc" with specific metadata for this purpose, being "d-id:documentHash" and "d-id:status" and respective conditions.
