@@ -25,7 +25,7 @@ Here are a number of potential types of such conditions:
     Condition type 3: "nem:mayBeEmpty": A transaction will be triggered if a metadata value is empty
     Condition type 4: "nem:enumeration": A transaction will be triggered if a metadata value is one - and only one - of the enumeration values
     
-By default, their value is "false" and no business logic will be executed.
+By default, for the boolean types, their value is "false" and no business logic will be executed.
 The account holder that puts these conditions on a metadata property has the entention of using the business logic, so will has to set their value to "true".
 
 ## NEM Catapult 'accounty alias' as metadata
