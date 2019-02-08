@@ -70,3 +70,7 @@ The last transaction will contain the status that the verifier should use.
 Using these metadata and conditions on metadata, we can modify the NEM Catapult blockchain so that is becomes suitable for identity purposes:
 1. By attaching an alias to an account containing a DID and resticting this to be unique and
 2. By using this account then for making transactions on a mosaic "identity-doc" with specific metadata for this purpose, being "d-id:documentHash" and "d-id:status" and respective conditions.
+
+## Example of using metadata for an oracle mosaic
+
+TODO
