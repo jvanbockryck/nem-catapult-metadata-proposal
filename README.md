@@ -71,6 +71,64 @@ Using these metadata and conditions on metadata, we can modify the NEM Catapult 
 1. By attaching an alias to an account containing a DID and resticting this to be unique and
 2. By using this account then for making transactions on a mosaic "identity-doc" with specific metadata for this purpose, being "d-id:documentHash" and "d-id:status" and respective conditions.
 
-## Example of using metadata for an oracle mosaic
+## Example of using metadata for an oracle mosaic (very drafty)
+Putting an oracle - being a data source outside of a blockchain - on the NEM Catapult is another strong use case. To enforce the strenght of that data source, it should come from trusted "identified" parties.
 
-TODO
+For this purpose, an oracle mosaic can be created via multisig and each multisig account should be of a an "identified" type - see higher-  thus having an alias with a DID.
+Furthermore, this DID should be able to be looked-up - so should be public - AND should contain a public Verifiable Claim (containing data that clearly should prove the identity of the oracle party).
+
+For the metadata requirements, I will stick to the oracle mosaic and not go into detail about the Verifiable Claims of the multisig account holders.
+
+In this, with respect, I am strongly inspired by the work of the Komodo platform on this matter (see https://github.com/KomodoPlatform/Mastering_CryptoConditions/blob/master/Chapter%2011%20-%20oracles%20example)
+Nevertheless, to put it in the NEM Catapult context, I suggest the following.
+
+### Add additional metadata on an account to make it an oracle-account
+Let's assume 3 oracle parties need to sign to do any kind of oracle operation e.g. create/register (an new oracle), data-event (adds new data events), subscribe (listening to a data-event stream), etc.
+
+Each oracle party should have an oracle-account. This is an account with a DID as alias (see higher) but with extra metadata properties added:
+
+    Oracle metadata property 1, "nem:isOracleAccount": Should be "true" (off course)
+    Oracle metadata property 2, "nem:oracleClaim": Should contain a reference to a Verifiable Claim detailing the identity of the oracle party
+    
+So these oracle parties are the responsible/accountable entities behind the delivery of oracle data.
+    
+### Add metadata to an oracle mosaic
+For this, I would like to take an example from a real-world asset that is simple to understand: electricity (e.g. from a renewable source). This could further be specified by the namespace of the entity that delivers the electricity, e.g. "localWind".
+So this example local electricity company produces electricity from wind and want to issue the mosaic "localWind.electricity" but based on real data from the electricity generator, so that's the oracle in this case.
+
+The "localWind.electricity" mosaic then can bear additional metadata to make it usefull for oracle purposes. The metadata namespace prefix we set to "lwe" and then we can create a number of metadata on this metadata-namespace (off course, this metadata can be generalised for any kind of sensor-based metadata):
+
+    Metadata property 1, "lwe:sensorDID": Identifier of the sensor that created the data. (It would be good if this sensor would also have a Verifiable Claim, but we leave this out of the example. If the sensor is fixed, and this is usually the case for electricity, then the location can just be part of the claim.)
+    Metadata property 2, "lwe:sensorDataEvent": The measured data (can be a data structure on its own or can reference a data file)
+    Metadata property 3, "lwe:sensorEventTime": The dateTime the sensor recorded the data event
+
+### Oracle metadata to trigger release of other mosaics
+The prime purpose for having pretty detailed metadata on an oracle mosaic is to use the values of that metadata to trigger other transactions. The granular the metadata, the better that works.
+
+In our example, we thus better make "lwe:sensorDataEvent" more granular and replace it with a specific metadata property - "lwe:producedElectricity" - that we can be use to create a devisable mosaic that represent a value, in this case, the produced electricity. This must be an number.
+
+LocalWind will issue a mosaic for this purpose with the name (alias) "localWind.e-token". This can trigger a complex NEM Catapult transaction that devides this mosaic to multiple stakeholders (existing function of NEM Catapult).
+
+To bind the oracle mosaic "localWind.electricity" with the issueing of the "localWind.e-token" mosaic we can use metadata that should be added to the "localWind.e-token" mosaic at creation of that mosaic type:
+    
+    Metadata property 3, "nem:oracleSource": Reference to the NEM Catapult oracle mosaic that can trigger the issuance of another mosaic.
+    Metadata property 4, "nem:oracleInput: Reference to the metadata that should be used as input for the issuance of another mosaic.
+    Metadata property 5, "nem:oracleDevider": Formula to devide the input to issue a number of mosaics
+    
+Applied to our "localWind" example, the metadata values for the "localWind.e-token" would be
+* nem:oracleSource=localWind.electricity
+* nem:oracleInput=lwe:producedElectricity
+* nem:oracleDevider=100 (or anything that makes sense)
+
+
+
+
+
+
+
+
+
+
+
+
+
