@@ -12,7 +12,7 @@ A prefix of such metadata-namespace can be used to put in front of a metadata ke
 ## Define metadata properties within a metadata-space
 There should be a transaction to define metadata properties within a metadata-space.
 
-    Example of a property with name being "hash" in the "defined-id": "d-id:hash".
+    Example of a property with name being "hash" in the "defined-id": "d-id:documentHash".
     
 ## Add (simple) conditions on a metadata property
 There should be a transaction to add (simple) conditions to a metadata property. 
@@ -57,6 +57,10 @@ We can define the "d-id:status" metadata property and put the following conditio
 This means that a transaction of a "identity-doc" mosaic must contain the "d-id:status" metadata AND the values of that metadata should be one of the enumeration. 
 
 If we apply just these two metadata properties "d-id:documentHash" and "d-id:status" on an instance of an "identity-doc" mosaic, we can support all DID operations (as described in https://w3c-ccg.github.io/did-spec/#did-operations), not on the actual DID Documents, but at least on the document hashes on the NEM Catapult blockchain.
+
+## Summary of NEM Catapult transactions of identity
+The following 4 steps show all transaction steps for identity purpose:
+(insert here pict 1)
 
 **Note on "update" and "revoked (or delete)" operation for identity management:**
 Any blockchain struggles with the concept of mutability as it is contrary to the inherent immutability of a blockchain.
