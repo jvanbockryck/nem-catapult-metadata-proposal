@@ -143,7 +143,7 @@ Now with all metadata and identities in place, Localwind can create their mosaic
 The transaction that creates an instance of a "localwind.electricity" oracle mosaic only needs to contain metadata values that are different for each transaction, being the "lwe:producedEnergy" and "lwe:generatorEventTime. 
 
 To indicate which "localwind.electricity" transaction caused the creation of which "localwind.e-token" transaction, the following metadata property is proposed:
-> "nem:causingTransaction"
+> **"nem:causingTransaction"**
 
 ![localwind transactions](images/step7-2.png)
 
