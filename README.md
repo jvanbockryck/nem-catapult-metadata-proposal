@@ -149,3 +149,68 @@ To indicate which "localwind.electricity" transaction caused the creation of whi
 
 ## General remark on NEM Catapult metadata
 **To make all this metadata usefull for discovery, it should be queryable.**
+
+## First example extension for LocalWind: Stakeholders oracle via a KYC provider
+The previous example can be extended to include a mechanism to determine the stakeholders for the e-token transactions.
+
+These stakeholders should go through a KYC procudure, as the **e-token is very likely considered as a security**.
+
+We can use the following mechanisms that have been demonstrated in the LocalWind example:
+* Every stakeholder should have a "private" identity account.
+* An external KYC provider can verify this stakeholder's private identity based on a Verifiable Claim that the stakeholder must share with the KYC provider.
+* An external KYC provider can put the verified stakeholder on a "private" whitelist, issued by the KYC provider. This can be a (zero knowledge) Verifiable Claim. This whitelist will act as a KYC/stakeholder oracle and is bound to the e-token.
+* The KYC provider should have an oracle account.
+* The KYC provider can update the KYC/stakeholder oracle, if new stakeholders are added or existing need to be removed (for financial/legal reasons).
+* All parties only need to create and register their identity documents only once, so creating new whitelists - bound to other security tokens - can be created very fast afterward (speeding-up the KYC procedure significantly).
+
+To extend the LocalWind example with this KYC/stakeholder functionality, the following steps need to be taken:
+* Create oracle account for KYC provider and identity accounts for all stakeholders
+* Register identity documents for the KYC provider, the Whitelister and the stakeholders
+* Update LocalWind metadata and update the e-token mosaic
+* Create a new mosaic for the e-tokenwhitelist oracle
+
+### Create oracle account for KYC provider and identity accounts for all stakeholders
+![kyc oracle account and stakeholder accounts](images/part2-step1.png)
+
+### Register identity documents for the KYC provider, the Whitelister and the stakeholders
+Note that the whitelist data itself is here represented as a Verifiable Claim. The advantage is that this allows the KYC provider to cryptographically proof that he is the creator of the whitelist.
+![register identity docs for KYC provider, Whitelister and stakeholders](images/part2-step2.png)
+
+### Update LocalWind metadata and update the e-token mosaic
+The red parts are the updates. Green are new metadata.
+This extension shows that having multiple instances of the same metadata type is also usefull. In our case, the e-token generation is based on two oracles: localwind.electricity and localwind.e-tokenwhitelist.
+
+A new NEM Catapult metadata property is here introduced, to indicate a whitelist is required:
+> **"nem:whitelist"** (should be true)
+
+Two LocalWind metadata properties are added:
+> * **"lwe:whitelistEndpoint"**: The endpoint where the e-token whitelist document (Verifiable Claim) can be retrieved
+> * **"lwe:whitelisterDID"**: The identity DID of the Whitelister
+
+Important to notice - not shown in pictures - that the KYC provider needs to co-sign the e-token transactions.
+
+![update LocalWind metadata an e-token mosaic](images/part2-step3.png)
+
+### Create a new mosaic for the e-tokenwhitelist oracle
+The new element here is the metadata property "lwe:whitelistEndpoint" on the e-tokenwhitelist oracle that **points to an external document**. This is done for **privacy reasons** as the whitelist document can't be put on a blockchain, because it contains personal data (and this is against GDPR/EU Blockchain Forum recommendation).
+
+The whitelist document should be encrypted by keys owned by the KYC provider and as he is co-signer he - and only he - should be able to use the whitelist document as input for the e-token transaction generation.(TBD how this could work in NEM Catapult).
+
+The previous oracle, the LocalWind electricity oracle, didn't need this mechanism because no personal data was involved.
+
+![new mosaic for e-tokenwhitelist oracle](images/part2-step4.png)
+
+## Second example extension for LocalWind: Exchange e-token to e-euro with validator approval
+The example can be further developed in which an extra series of steps are added to the workflow that **convert the e-token to an e-euro, including the approval of an external validator.**
+
+The release of an e-euro would include:
+* The exchange rate that the issuer - electricity company - agrees on
+* The approval from an external validator (co-signer) to allow the exchange
+
+Furthermore, the issuing of the e-euro should trigger an external API - that is "listening" to e-euro transactions - to create a SEPA/EURO message (e.g. using Swift message) to **transfer Euros from the company SEPA/EURO account to the accounts of the electricity stakeholders**.
+This part is not worked out in this example.
+
+
+
+
+
