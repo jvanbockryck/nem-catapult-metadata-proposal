@@ -88,20 +88,20 @@ LocalWind is a renewable electricity producer and wants to setup a NEM Catapult 
 Then the creation of each instance of this electricity mosaic should trigger the creation of a number of electricity tokens that represent shareholder value.
 
 LocalWind now has two mosaics (within the "localwind" namespace):
-* localwind.electricity
-* localwind.e-token
+* localwind.electricity: This will be the **oracle**
+* localwind.e-token: This will be the **(security) token** released based on the issuing of oracle data
 
-### An oracle account for LocalWind
+### An oracle account for localwind.electricity
 First thing that LocalWind needs to do is to create an oracle account with an account alias containing a LocalWind identity (DID).
 ![oracle account creation](images/step2.png)
     
-### Identity documents for LocalWind
+### Identity documents for the LocalWind company
 The oracle account holders of LocalWind are the responsible/accountable entities behind the delivery of oracle data.
 To proof their identity, a public DID Document and Verifiable Claim should be registered on a NEM Catapult.
 
 ![identity registration for the oracle account](images/step3.png)
     
-### Metadata for an oracle mosaic
+### Metadata for the oracle and e-token mosaics
 The "localwind.electricity" mosaic should bear additional metadata to make it usefull for oracle purposes. We propose the following metadata property in the NEM namespace for this purpose:
 > **"nem:isOracleMosaic"**
 
@@ -123,12 +123,14 @@ For that purpose, we suggest the following NEM Catapult metadata:
 > * **"nem:oracleInput**: Reference to the metadata that is used as input for the issuance of another mosaic.
 >* **"nem:oracleDevider"**: Formula that devides the input to issue mosaics
 
+### Identity documents for the LocalWind energy generator (device)
 The generator DID is a public DID of a device that is owned Localwind. Localwind could re-use their oracle account to register the DID Document and Verifiable Claim to proof for this electricity generator device.
 
 ![identity registration for the electricity generator device](images/step4.png)
 
 There is no personal data involved in these device and business identities, so there is no harm on publishing all this metadata publicly, on the contrary, it allows fully transparent discovery.
 
+### Generic, desciptive, standard metadata
 More metadata can be added to further describe both the "localwind.electricity" oracle mosaic and the "localwind.e-token" mosaic, so interested parties can understand what this token is about.
 For that kind of purpose, standardised **Dublin Core** metadata should be used that is widely accepted.
 That Dublin Core metadata uses the prefix "dc". More info about Dublin Core can be find here: http://www.dublincore.org/documents/dcmi-terms/
@@ -139,7 +141,11 @@ Now with all metadata and identities in place, Localwind can create their mosaic
 
 ### Transactions with the Localwind mosaics
 The transaction that creates an instance of a "localwind.electricity" oracle mosaic only needs to contain metadata values that are different for each transaction, being the "lwe:producedEnergy" and "lwe:generatorEventTime. 
-![localwind transactions](images/step7.png)
+
+To indicate which "localwind.electricity" transaction caused the creation of which "localwind.e-token" transaction, the following metadata property is proposed:
+> "nem:causingTransaction"
+
+![localwind transactions](images/step7-2.png)
 
 ## General remark on NEM Catapult metadata
 **To make all this metadata usefull for discovery, it should be queryable.**
