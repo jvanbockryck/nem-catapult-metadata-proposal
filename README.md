@@ -24,12 +24,12 @@ These conditions should be on the NEM metadata-namespace as their purpose is to 
 This is a list of potential  NEM conditions:
 
 > * **"nem:isRequired"**: A transaction will be triggered only of a metadata value is provided 
-> * **"nem:isUnique"**: A tranasction will be triggered if a metadata value is unique accross all transactions containing the same metadata. This also means that if a new transaction contains the same metadata value, that new transaction will be blocked.
+> * **"nem:isUnique"**: A transaction will be triggered if a metadata value is unique across all transactions containing the same metadata. This also means that if a new transaction contains the same metadata value, that new transaction will be blocked.
 > * **"nem:mayBeEmpty"**: A transaction will be triggered if a metadata value is empty
 > * **"nem:enumeration"**: A transaction will be triggered if a metadata value is one - and only one - of the enumeration values
     
-The defaul value for the boolean types is "false" and no business logic will be executed.
-The account holder that puts these conditions on a metadata property has the entention of using the business logic, so will set their value to "true".
+The default value for the boolean types is "false" and no business logic will be executed.
+The account holder that puts these conditions on a metadata property has the intention of using the business logic, so will set their value to "true".
 
 ## NEM Catapult account alias as metadata
 The documentations on the upcoming COW NEM Catapult contains the concept of "account alias" (https://github.com/nemtech/nem2-docs/blob/cow/source/concepts/namespace.rst).
@@ -45,7 +45,7 @@ Example:
 Alternatively, if the registration of an account would allow metadata, a DID could be provided via metadata. In that case, it would be good to make this a "nem" metadata property:
 >**"nem:did"**
 
-Metadata conditions can be applied to the "nem:accountAlias" - or, alternatively on "nem:did" - to add a constraint, e.g. to make it unique, via the "nem:isUnique" condition. Using such condition, a value of a "nem:accountAlias" can only be used once, which is exactly the behaviour that  is required for an identity property.
+Metadata conditions can be applied to the "nem:accountAlias" - or, alternatively on "nem:did" - to add a constraint, e.g. to make it unique, via the "nem:isUnique" condition. Using such condition, a value of a "nem:accountAlias" can only be used once, which is exactly the behavior that  is required for an identity property.
 
 ## Example of using conditions on identity metadata
 The "d-id:documentHash" metadata property should have the following conditions:
@@ -73,11 +73,11 @@ The last transaction will contain the status that the verifier should use.
 
 ## Conclusion on using metadata for identity purposes
 Using the proposed metadata and conditions, we can modify the NEM Catapult blockchain so that becomes more suitable for identity purposes:
-1. By attaching an alias to an account - or alternatively, via "nem:did" metadata -containing a DID and resticting this to be unique and
+1. By attaching an alias to an account - or alternatively, via "nem:did" metadata -containing a DID and restricting this to be unique and
 2. By using this account for transactions of mosaic "identity-doc" with metadata "d-id:documentHash" and "d-id:status" and respective conditions.
 
 ## Metadata for an oracle account
-Putting an **oracle - a data source outside of a blockchain** - on the NEM Catapult is another strong use case in which metadata can play a role. To enforce the strenght of an oracle data source, it should be issued by a trusted "identified" party (can be more parties, using co-signing).
+Putting an **oracle - a data source outside of a blockchain** - on the NEM Catapult is another strong use case in which metadata can play a role. To enforce the strength of an oracle data source, it should be issued by a trusted "identified" party (can be more parties, using co-signing).
 
 Therefore such oracle account should contain an account alias with a DID (see higher).
 This DID should be public and be the owner of a public Verifiable Claim (containing data that proves the identity of the oracle).
@@ -99,7 +99,7 @@ First thing that LocalWind needs to do is to create an oracle account with an ac
 ![oracle account creation](images/step2.png)
     
 ### Identity documents for the LocalWind company
-An oracle account holder for LocalWind is the responsible/accountable entitiy behind the delivery of oracle data.
+An oracle account holder for LocalWind is the responsible/accountable entity behind the delivery of oracle data.
 To proof the identity of the LocalWind company, a public DID Document and Verifiable Claim should be registered on a NEM Catapult.
 
 ![identity registration for the oracle account](images/step3.png)
@@ -107,14 +107,14 @@ To proof the identity of the LocalWind company, a public DID Document and Verifi
 Additionally, the responsible persons behind LocalWind could also register/proof their identity this way and a link to their identity could then be added to the Verifiable Claim of the company.
     
 ### Metadata for the oracle and e-token mosaics
-The "localwind.electricity" mosaic should bear additional metadata to make it usefull for oracle purposes. We propose the following metadata property in the NEM namespace for this purpose:
+The "localwind.electricity" mosaic should bear additional metadata to make it useful for oracle purposes. We propose the following metadata property in the NEM namespace for this purpose:
 > **"nem:isOracleMosaic"** (or "nem:isOracle")
 
 The "localwind.electricity" mosaic should also contain metadata about the electricity generator and the data it produces at a certain time.
 
 LocalWind should then register their metadata-prefix which they name "lwe". 
 These are the "lwe" metadata properties:
->* **"lwe:generatorDID"**: Identifier of the electricty generator that created the data.
+>* **"lwe:generatorDID"**: Identifier of the electricity generator that created the data.
 > * **"lwe:producedElectricity"**: The produced electricity 
 >* **"lwe:generatorEventTime"**: The dateTime the electricity generator recorded the produced electricity.
 
@@ -126,7 +126,7 @@ On the other hand, the ""localwind.e-token" mosaic" should have metadata to defi
 For that purpose, we suggest the following NEM Catapult metadata:
 > * **"nem:oracleSource"**: Reference to the NEM Catapult oracle mosaic that triggers the issuance of another mosaic.
 > * **"nem:oracleInput**: Reference to the metadata that is used as input for the issuance of another mosaic.
->* **"nem:oracleDevider"**: Formula that devides the input to issue mosaics
+>* **"nem:oracleDivider"**: Formula that divides the input to issue mosaics
 
 ### Identity documents for the LocalWind energy generator (device)
 The generator DID is a public DID of a device that is owned by Localwind. Localwind could re-use their oracle account to register the DID Document and Verifiable Claim as proof for this electricity generator device.
@@ -135,7 +135,7 @@ The generator DID is a public DID of a device that is owned by Localwind. Localw
 
 There is no personal data involved in these device and business identities, so there is no harm on publishing all this metadata publicly, on the contrary, it allows fully transparent discovery.
 
-### Generic, desciptive, standard metadata
+### Generic, descriptive, standard metadata
 More metadata can be added to further describe both the "localwind.electricity" oracle mosaic and the "localwind.e-token" mosaic, so interested parties can understand what this token is about.
 For that kind of purpose, standardised **Dublin Core** metadata should be used that is widely accepted.
 That Dublin Core metadata uses the prefix "dc". More info about Dublin Core can be find here: http://www.dublincore.org/documents/dcmi-terms/
@@ -153,12 +153,12 @@ To indicate which "localwind.electricity" transaction caused the creation of whi
 ![localwind transactions](images/step7-2.png)
 
 ## General remark on NEM Catapult metadata
-**To make all this metadata usefull for discovery, it should be queryable.**
+**To make all this metadata useful for discovery, it should be queryable.**
 
 ## First example extension for LocalWind: Stakeholders oracle via a KYC provider
 The previous example can be extended to include a mechanism to determine the stakeholders for the e-token transactions.
 
-These stakeholders should go through a KYC procudure, as the **e-token is very likely considered as a security**.
+These stakeholders should go through a KYC procedure, as the **e-token is very likely considered as a security**.
 
 We can use the following mechanisms that have been demonstrated in the LocalWind example:
 * Every stakeholder should have a "private" identity account.
@@ -183,7 +183,7 @@ Note that the whitelist data itself is here represented as a Verifiable Claim. T
 
 ### Update LocalWind metadata and update the e-token mosaic
 The red parts are the updates. Green are new metadata.
-This extension shows that having multiple instances of the same metadata type is also usefull. In our case, the e-token generation is based on two oracles: localwind.electricity and localwind.e-tokenwhitelist.
+This extension shows that having multiple instances of the same metadata type is also useful. In our case, the e-token generation is based on two oracles: localwind.electricity and localwind.e-tokenwhitelist.
 
 A new NEM Catapult metadata property is here introduced, to indicate a whitelist is required:
 > **"nem:whitelist"** (should be true)
@@ -199,20 +199,20 @@ Important to notice - not shown in pictures - that the KYC provider needs to co-
 ### Create a new mosaic for the e-tokenwhitelist oracle
 The new element here is the metadata property "lwe:whitelistEndpoint" on the e-tokenwhitelist oracle that **points to an external document**. This is done for **privacy reasons** as the whitelist document can't be put on a blockchain, because it contains personal data (and this is against GDPR/EU Blockchain Forum recommendation).
 
-The whitelist document should be encrypted by keys owned by the KYC provider and as he is co-signer he - and only he - should be able to use the whitelist document as input for the e-token transaction generation.(TBD how this could work in NEM Catapult).
+The whitelist document should be encrypted by keys owned by the KYC provider and as he is co-signer he - and only he - should be able to use the whitelist document as input for the e-token transaction generation. (TBD how this could work in NEM Catapult).
 
 The previous oracle, the LocalWind electricity oracle, didn't need this mechanism because no personal data was involved.
 
 ![new mosaic for e-tokenwhitelist oracle](images/part2-step4.png)
 
 ### Note on using oracles for public documentation
-Public documentation will be required for security tokens, as this will **avoid information asymetry**, to provide all (potential) stakeholder with the same information about the (security) token.
+Public documentation will be required for security tokens, as this will **avoid information asymmetry**, to provide all (potential) stakeholder with the same information about the (security) token.
 
 In that case, the public information can also be published via the oracle mechanism described above, but without encryption on the documentation. The oracle account holder can then proof ownership - and accountability - of the public documentation.
 
 For these purposes, NEM could issue the following metadata properties:
 >* **"nem:isTokenDocumentation"**: Boolean (set to "true) to indicate the oracle provides token documentation
->* **"nem:tokenDocumentationEndpoint"**: URL to public documention about the token
+>* **"nem:tokenDocumentationEndpoint"**: URL to public documentation about the token
 
 ## Second example extension for LocalWind: Exchange e-token to e-euro with validator/controller approval
 The example can be further developed in which an extra series of steps are added to the workflow that **convert the e-token to an e-euro, including the approval - or rejection - of an external validator/controller.**
@@ -227,16 +227,4 @@ This part is not worked out in this example.
 
 If no conversion to non-cryptocurrency is needed, then the role of validator/controller is still needed for the e-token, as
 this role has the power to block the spending of the e-token. This is required for a number of legal reasons (e.g. compliance to a certain security token regulation, fraud, court order, etc.).
-This is a very unpopular role in the current cryptocurrency world, as it is there to take the power away from the tokenholder, but it is a securities reality/requirement today.
-
-
-
-
-
-
-
-
-
-
-
-
+This is a very unpopular role in the current cryptocurrency world, as it is there to take the power away from the token holder, but it is a securities reality/requirement today.
