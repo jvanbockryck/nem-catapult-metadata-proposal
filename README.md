@@ -42,7 +42,10 @@ Example:
 * Account SCVG35-ZSPMYP-L2POZQ-JGSVEG-RYOJ3V-BNIU3U-N2E6 
 * "nem:accountAlias" ="did:defined:1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2" (a valid DID).
 
-Metadata conditions can be applied to this "nem:accountAlias" to add a constraint, e.g. to make it unique, via the "nem:isUnique" condition. Using such condition, a value of a "nem:accountAlias" can only be used once, which is exactly the behaviour that  is required for an identity property.
+Alternatively, if the registration of an account would allow metadata, a DID could be provided via metadata. In that case, it would be good to make this a "nem" metadata property:
+>**"nem:did"**
+
+Metadata conditions can be applied to the "nem:accountAlias" - or, alternatively on "nem:did" - to add a constraint, e.g. to make it unique, via the "nem:isUnique" condition. Using such condition, a value of a "nem:accountAlias" can only be used once, which is exactly the behaviour that  is required for an identity property.
 
 ## Example of using conditions on identity metadata
 The "d-id:documentHash" metadata property should have the following conditions:
@@ -64,13 +67,13 @@ The following 4 steps show all transaction steps for identity purpose:
 Any blockchain struggles with the concept of mutability as it is contrary to the inherent immutability of a blockchain.
 Off course a transaction remains immutable, but by adding some metadata and conditions, the concept of an "update" and "revocation (or delete)" can be implemented to a certain degree (needs to be in concert how an application reacts to that, unfortunately).
 
-### Note on "verify" operation for identity managemen
-A DID verify operation can look at all transactions with mosaic "identity-doc" coming from an account containing a DID as alias and then can look at the "d-id:status" metadata. 
+### Note on "verify" operation for identity management
+A DID verify operation can look at all transactions with mosaic "identity-doc" coming from an account containing a DID as alias - or alternatively via "nem:did" metadata - and then can look at the "d-id:status" metadata. 
 The last transaction will contain the status that the verifier should use.
 
 ## Conclusion on using metadata for identity purposes
 Using the proposed metadata and conditions, we can modify the NEM Catapult blockchain so that becomes more suitable for identity purposes:
-1. By attaching an alias to an account containing a DID and resticting this to be unique and
+1. By attaching an alias to an account - or alternatively, via "nem:did" metadata -containing a DID and resticting this to be unique and
 2. By using this account for transactions of mosaic "identity-doc" with metadata "d-id:documentHash" and "d-id:status" and respective conditions.
 
 ## Metadata for an oracle account
@@ -84,10 +87,10 @@ To indicate an account is an oracle account, we suggest adding this metadata to 
 ## Oracle example: LocalWind
 ### Context of the example
 To demonstrate an oracle use case, we use the fictitious company "LocalWind".
-LocalWind is a renewable electricity producer and wants to setup a NEM Catapult oracle as a mosaic and create a transaction every x time new data is available.
+LocalWind is a renewable electricity producer and wants to setup a NEM Catapult oracle as a mosaic and create a transaction every x time new electricity production data is available.
 Then the creation of each instance of this electricity mosaic should trigger the creation of a number of electricity tokens that represent shareholder value.
 
-LocalWind now has two mosaics (within the "localwind" namespace):
+LocalWind then has two mosaics (within the "localwind" namespace):
 * localwind.electricity: This will be the **oracle**
 * localwind.e-token: This will be the **(security) token** released based on the issuing of oracle data
 
@@ -96,14 +99,16 @@ First thing that LocalWind needs to do is to create an oracle account with an ac
 ![oracle account creation](images/step2.png)
     
 ### Identity documents for the LocalWind company
-The oracle account holders of LocalWind are the responsible/accountable entities behind the delivery of oracle data.
-To proof their identity, a public DID Document and Verifiable Claim should be registered on a NEM Catapult.
+An oracle account holder for LocalWind is the responsible/accountable entitiy behind the delivery of oracle data.
+To proof the identity of the LocalWind company, a public DID Document and Verifiable Claim should be registered on a NEM Catapult.
 
 ![identity registration for the oracle account](images/step3.png)
+
+Additionally, the responsible persons behind LocalWind could also register/proof their identity this way and a link to their identity could then be added to the Verifiable Claim of the company.
     
 ### Metadata for the oracle and e-token mosaics
 The "localwind.electricity" mosaic should bear additional metadata to make it usefull for oracle purposes. We propose the following metadata property in the NEM namespace for this purpose:
-> **"nem:isOracleMosaic"**
+> **"nem:isOracleMosaic"** (or "nem:isOracle")
 
 The "localwind.electricity" mosaic should also contain metadata about the electricity generator and the data it produces at a certain time.
 
@@ -124,7 +129,7 @@ For that purpose, we suggest the following NEM Catapult metadata:
 >* **"nem:oracleDevider"**: Formula that devides the input to issue mosaics
 
 ### Identity documents for the LocalWind energy generator (device)
-The generator DID is a public DID of a device that is owned Localwind. Localwind could re-use their oracle account to register the DID Document and Verifiable Claim to proof for this electricity generator device.
+The generator DID is a public DID of a device that is owned by Localwind. Localwind could re-use their oracle account to register the DID Document and Verifiable Claim as proof for this electricity generator device.
 
 ![identity registration for the electricity generator device](images/step4.png)
 
@@ -200,8 +205,18 @@ The previous oracle, the LocalWind electricity oracle, didn't need this mechanis
 
 ![new mosaic for e-tokenwhitelist oracle](images/part2-step4.png)
 
-## Second example extension for LocalWind: Exchange e-token to e-euro with validator approval
-The example can be further developed in which an extra series of steps are added to the workflow that **convert the e-token to an e-euro, including the approval of an external validator.**
+### Note on using oracles for public documentation
+Public documentation will be required for security tokens, as this will **avoid information asymetry**, to provide all (potential) stakeholder with the same information about the (security) token.
+
+In that case, the public information can also be published via the oracle mechanism described above, but without encryption on the documentation. The oracle account holder can then proof ownership - and accountability - of the public documentation.
+
+For these purposes, NEM could issue the following metadata properties:
+>* **"nem:isTokenDocumentation"**: Boolean (set to "true) to indicate the oracle provides token documentation
+>* **"nem:tokenDocumentationEndpoint"**: URL to public documention about the token
+
+## Second example extension for LocalWind: Exchange e-token to e-euro with validator/controller approval
+The example can be further developed in which an extra series of steps are added to the workflow that **convert the e-token to an e-euro, including the approval - or rejection - of an external validator/controller.**
+Off course this would be the same for any other non-cryptocurrency.
 
 The release of an e-euro would include:
 * The exchange rate that the issuer - electricity company - agrees on
@@ -209,6 +224,17 @@ The release of an e-euro would include:
 
 Furthermore, the issuing of the e-euro should trigger an external API - that is "listening" to e-euro transactions - to create a SEPA/EURO message (e.g. using Swift message) to **transfer Euros from the company SEPA/EURO account to the accounts of the electricity stakeholders**.
 This part is not worked out in this example.
+
+If no conversion to non-cryptocurrency is needed, then the role of validator/controller is still needed for the e-token, as
+this role has the power to block the spending of the e-token. This is required for a number of legal reasons (e.g. compliance to a certain security token regulation, fraud, court order, etc.).
+This is a very unpopular role in the current cryptocurrency world, as it is there to take the power away from the tokenholder, but it is a securities reality/requirement today.
+
+
+
+
+
+
+
 
 
 
