@@ -15,18 +15,24 @@ For identity purposes, these two metadata-properties are useful:
 >  * "d-id:status"
 
 ## NEM metadata-namespace
-A NEM metadata-namespace should be added for canonical metadata. The metadata-namespace prefix should be "nem".
+A NEM metadata-namespace should be added for canonical metadata. The metadata-namespace prefix for the NEM canonical metadata should be "nem".
+
+The **metadata in the "nem" metadata-namespace are used for programming the NEM blockchain**, to enhance its smartness. They enhance the existing programming capabilities. 
+Some of the suggestions in this proposal might overlap with some existing - non-yet-known or things that are in the pipeline - NEM Catapult functionality (or even features this writer is not aware of). Feedback on this proposal can correct that.
+
+The proposed metadata are useful on NEM accounts, namespaces, mosaics and transactions to restrict or extend their functionality.
 
 ## Conditions on a metadata property
 There should be an operation to add (simple) conditions on a metadata property. 
 These conditions should be on the NEM metadata-namespace as their purpose is to trigger business logic developed on the NEM Catapult blockchain.
+The conditions can be combined using boolean logic.
 
-This is a list of potential  NEM conditions:
+This is a list of potential NEM conditions:
 
-> * **"nem:isRequired"**: A transaction will be triggered only of a metadata value is provided 
-> * **"nem:isUnique"**: A transaction will be triggered if a metadata value is unique across all transactions containing the same metadata. This also means that if a new transaction contains the same metadata value, that new transaction will be blocked.
-> * **"nem:mayBeEmpty"**: A transaction will be triggered if a metadata value is empty
-> * **"nem:enumeration"**: A transaction will be triggered if a metadata value is one - and only one - of the enumeration values
+> * **"nem:isRequired"**: An operation will be triggered only of a metadata value is provided 
+> * **"nem:isUnique"**: An operation will be triggered if a metadata value is unique across all transactions containing the same metadata. This also means that if a new transaction contains the same metadata value, that new transaction will be blocked.
+> * **"nem:mayBeEmpty"**: An operation will be triggered if a metadata value is empty
+> * **"nem:enumeration"**: An operation will be triggered if a metadata value is one - and only one - of the enumeration values
     
 The default value for the boolean types is "false" and no business logic will be executed.
 The account holder that puts these conditions on a metadata property has the intention of using the business logic, so will set their value to "true".
@@ -45,19 +51,22 @@ Example:
 Alternatively, if the registration of an account would allow metadata, a DID could be provided via metadata. In that case, it would be good to make this a "nem" metadata property:
 >**"nem:did"**
 
-Metadata conditions can be applied to the "nem:accountAlias" - or, alternatively on "nem:did" - to add a constraint, e.g. to make it unique, via the "nem:isUnique" condition. Using such condition, a value of a "nem:accountAlias" can only be used once, which is exactly the behavior that  is required for an identity property.
+Metadata conditions can be applied to the "nem:accountAlias" - or, alternatively on "nem:did" - to add a constraint, e.g. to make it unique, via the "nem:isUnique" condition. 
+Using such condition, a value of a "nem:accountAlias" can only be used once, which is exactly the behavior that is required for an identity property, being to **avoid** that an account used for identity purposes is used for more then one identity (evading correlation of identities).
 
 ## Example of using conditions on identity metadata
-The "d-id:documentHash" metadata property should have the following conditions:
+The following examples demonstrate how these conditions can be applied on metadata properties that are relevant for identity purposes.
+
+Conditions on the "d-id:documentHash" metadata property:
 * nem:isRequired=true
 * nem:isUnique=true
 * nem:mayBeEmpty=true
 
-The "d-id:status" metadata property should have these conditions:
+Conditions on the "d-id:status" metadata property:
 * nem:isRequired=true
 * nem:enumeration=["created", "updated", "revoked"]
 
-With these two metadata properties "d-id:documentHash" and "d-id:status" used on an instance of an "identity-doc" mosaic, we can support all DID operations (as described in https://w3c-ccg.github.io/did-spec/#did-operations), not on the actual DID Documents, but at least on the document hashes on the NEM Catapult blockchain.
+With these two metadata properties - "d-id:documentHash" and "d-id:status"-  used on an instance of an "identity-doc" mosaic, we can support all DID operations (as described in https://w3c-ccg.github.io/did-spec/#did-operations), not on the actual DID Documents, but at least on the document hashes on the NEM Catapult blockchain.
 
 ## Summary of NEM Catapult operations for identity
 The following 4 steps show all transaction steps for identity purpose:
@@ -84,7 +93,9 @@ This DID should be public and be the owner of a public Verifiable Claim (contain
 
 To indicate an account is an oracle account, we suggest adding this metadata to it:
  > **"nem:isOracleAccount"**
+ 
 ## Oracle example: LocalWind
+
 ### Context of the example
 To demonstrate an oracle use case, we use the fictitious company "LocalWind".
 LocalWind is a renewable electricity producer and wants to setup a NEM Catapult oracle as a mosaic and create a transaction every x time new electricity production data is available.
@@ -114,18 +125,18 @@ The "localwind.electricity" mosaic should also contain metadata about the electr
 
 LocalWind should then register their metadata-prefix which they name "lwe". 
 These are the "lwe" metadata properties:
->* **"lwe:generatorDID"**: Identifier of the electricity generator that created the data.
-> * **"lwe:producedElectricity"**: The produced electricity 
->* **"lwe:generatorEventTime"**: The dateTime the electricity generator recorded the produced electricity.
+>* "lwe:generatorDID": Identifier of the electricity generator that created the data.
+>* "lwe:producedElectricity": The produced electricity 
+>* "lwe:generatorEventTime": The dateTime the electricity generator recorded the produced electricity.
 
 These are the steps Localwind  should take to define their metadata:
 ![localwind metadata](images/step5.png)
 
 On the other hand, the ""localwind.e-token" mosaic" should have metadata to define **how e-tokens will be created** by the "localwind.electricity" oracle.
 
-For that purpose, we suggest the following NEM Catapult metadata:
-> * **"nem:oracleSource"**: Reference to the NEM Catapult oracle mosaic that triggers the issuance of another mosaic.
-> * **"nem:oracleInput**: Reference to the metadata that is used as input for the issuance of another mosaic.
+For that purpose, we suggest the following NEM Catapult metadata properties:
+>* **"nem:oracleSource"**: Reference to the NEM Catapult oracle mosaic that triggers the issuance of another mosaic.
+>* **"nem:oracleInput**: Reference to the metadata that is used as input for the issuance of another mosaic.
 >* **"nem:oracleDivider"**: Formula that divides the input to issue mosaics
 
 ### Identity documents for the LocalWind energy generator (device)
