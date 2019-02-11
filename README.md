@@ -185,12 +185,9 @@ Note that the whitelist data itself is here represented as a Verifiable Claim. T
 The red parts are the updates. Green are new metadata.
 This extension shows that having multiple instances of the same metadata type is also useful. In our case, the e-token generation is based on two oracles: localwind.electricity and localwind.e-tokenwhitelist.
 
-A new NEM Catapult metadata property is here introduced, to indicate a whitelist is required:
-> **"nem:whitelist"** (should be true)
-
-Two LocalWind metadata properties are added:
-> * **"lwe:whitelistEndpoint"**: The endpoint where the e-token whitelist document (Verifiable Claim) can be retrieved
-> * **"lwe:whitelisterDID"**: The identity DID of the Whitelister
+For whitelisting purposes, the following NEM Catapult metadata property are proposed:
+> * **"nem:whitelistEndpoint"**: The endpoint where whitelist document (Verifiable Claim) can be retrieved
+> * **"nem:whitelisterDID"**: The identity DID of the Whitelister
 
 Important to notice - not shown in pictures - that the KYC provider needs to co-sign the e-token transactions.
 
@@ -210,9 +207,8 @@ Public documentation will be required for security tokens, as this will **avoid 
 
 In that case, the public information can also be published via the oracle mechanism described above, but without encryption on the documentation. The oracle account holder can then proof ownership - and accountability - of the public documentation.
 
-For these purposes, NEM could issue the following metadata properties:
->* **"nem:isTokenDocumentation"**: Boolean (set to "true) to indicate the oracle provides token documentation
->* **"nem:tokenDocumentationEndpoint"**: URL to public documentation about the token
+For these purposes, NEM could issue the following metadata property:
+> **"nem:tokenDocumentationEndpoint"**: URL to public documentation about the token
 
 ## Second example extension for LocalWind: Exchange e-token to e-euro with validator/controller approval
 The example can be further developed in which an extra series of steps are added to the workflow that **convert the e-token to an e-euro, including the approval - or rejection - of an external validator/controller.**
