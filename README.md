@@ -182,7 +182,6 @@ Note that the whitelist data itself is here represented as a Verifiable Claim. T
 ![register identity docs for KYC provider, Whitelister and stakeholders](images/part2-step2.png)
 
 ### Update LocalWind metadata and update the e-token mosaic
-The red parts are the updates. Green are new metadata.
 This extension shows that having multiple instances of the same metadata type is also useful. In our case, the e-token generation is based on two oracles: localwind.electricity and localwind.e-tokenwhitelist.
 
 For whitelisting purposes, the following NEM Catapult metadata property are proposed:
