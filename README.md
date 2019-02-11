@@ -191,7 +191,7 @@ For whitelisting purposes, the following NEM Catapult metadata property are prop
 
 Important to notice - not shown in pictures - that the KYC provider needs to co-sign the e-token transactions.
 
-![update LocalWind metadata an e-token mosaic](images/part2-step3.png)
+![update LocalWind metadata an e-token mosaic](images/part2-step3-2.png)
 
 ### Create a new mosaic for the e-tokenwhitelist oracle
 The new element here is the metadata property "lwe:whitelistEndpoint" on the e-tokenwhitelist oracle that **points to an external document**. This is done for **privacy reasons** as the whitelist document can't be put on a blockchain, because it contains personal data (and this is against GDPR/EU Blockchain Forum recommendation).
@@ -200,7 +200,7 @@ The whitelist document should be encrypted by keys owned by the KYC provider and
 
 The previous oracle, the LocalWind electricity oracle, didn't need this mechanism because no personal data was involved.
 
-![new mosaic for e-tokenwhitelist oracle](images/part2-step4.png)
+![new mosaic for e-tokenwhitelist oracle](images/part2-step4-2.png)
 
 ### Note on using oracles for public documentation
 Public documentation will be required for security tokens, as this will **avoid information asymmetry**, to provide all (potential) stakeholder with the same information about the (security) token.
